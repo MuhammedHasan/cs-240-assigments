@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import math
 import numpy as np
 from scipy import stats
+import random
 
 
 class PARTI:
@@ -68,19 +69,42 @@ class PARTII:
         pmf = thinkstats2.Pmf(np.random.rand(1000))
         tplot.Pmf(pmf)
         tplot.Cdf(thinkstats2.MakeCdfFromPmf(pmf))
-        tplot.Show(axis=[0, 1, 0, 1])
+        tplot.Show()
 
-    def PMF():
-        pass
+    def PMF(self):
+        X = [PARTII._choose_until_four() for i in range(10000)]
+        tplot.Hist(thinkstats2.Pmf(X))
+        tplot.Show()
 
-    def CDF():
-        pass
+    def CDF(self):
+        X = [PARTII._choose_until_four() for i in range(10000)]
+        tplot.Cdf(thinkstats2.Cdf(X))
+        tplot.Show()
 
-    def findDefective():
-        pass
+    def findDefective(self):
+        # TODO: For CDF, find percentiles and percentile ranks.
+        books = ps.read_csv('Book2.csv')
+        X = list()
+        for i in range(100):
+            num_try = 1
+            samp = books.sample(3)
+            while not all((samp['PART_ID'] > 10) & (samp['PART'] == 'D')):
+                num_try += 1
+                samp = books.sample(3)
+            X.append(num_try)
+            num_try = 0
+        pmf = thinkstats2.Pmf(X)
+        tplot.Pmf(pmf)
+        tplot.Cdf(thinkstats2.MakeCdfFromPmf(pmf))
+        tplot.Show()
 
-    def _choose_until_four(self):
-        pass
+    @staticmethod
+    def _choose_until_four():
+        num_try = int()
+        rand_choose_nums = list()
+        while 4 not in rand_choose_nums:
+            num_try += 1
+            rand_choose_nums.append(random.randint(1, 6))
+        return num_try
 
-
-print PARTII().generate()
+print PARTII().findDefective()
