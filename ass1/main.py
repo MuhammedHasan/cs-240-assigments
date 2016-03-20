@@ -8,6 +8,8 @@ from scipy import stats
 import random
 
 
+# TODO: add label for plot
+
 class PARTI:
 
     def __init__(self):
@@ -84,19 +86,20 @@ class PARTII:
     def findDefective(self):
         # TODO: For CDF, find percentiles and percentile ranks.
         books = ps.read_csv('Book2.csv')
-        X = list()
-        for i in range(100):
-            num_try = 1
-            samp = books.sample(3)
-            while not all((samp['PART_ID'] > 10) & (samp['PART'] == 'D')):
-                num_try += 1
-                samp = books.sample(3)
-            X.append(num_try)
-            num_try = 0
+        X = [PARTII._book_experiment(books) for i in range(100)]
         pmf = thinkstats2.Pmf(X)
         tplot.Pmf(pmf)
         tplot.Cdf(thinkstats2.MakeCdfFromPmf(pmf))
         tplot.Show()
+
+    @staticmethod
+    def _book_experiment(books):
+        num_try = 1
+        samp = books.sample(3)
+        while not all((samp['PART_ID'] > 10) & (samp['PART'] == 'D')):
+            num_try += 1
+            samp = books.sample(3)
+        return num_try
 
     @staticmethod
     def _choose_until_four():
