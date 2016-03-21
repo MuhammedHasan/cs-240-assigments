@@ -112,5 +112,3 @@ class PARTII:
             num_try += 1
             rand_choose_nums.append(random.choice(list_of_int))
         return num_try
-
-PARTII().findDefective()
