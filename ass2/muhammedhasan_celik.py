@@ -57,10 +57,7 @@ class PARTI:
         plt.scatter(self.df.weight, self.df.minutes)
         plt.show()
 
-    def _random_exp_series(self,  lower=1, upper=3):
+    def _random_exp_series(self,  lower=0.1, upper=3):
         alpha = random.uniform(lower, upper)
         return (pd.Series(sorted(self.exponential(
             random.uniform(0, 3), alpha) for i in range(10000))), alpha)
-
-
-print PARTI().baby_scatter()
